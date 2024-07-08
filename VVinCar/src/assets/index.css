@@ -1,0 +1,19 @@
+:root {
+    --color-dark--1: #405d72;
+    --color-dark--2: #758694;
+
+    --color-light--1: #f7e7dc;
+    --color-light--2: #fff8f3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    color: var(--color-light--2);
+}
+
+body {
+    background-color: var(--color-dark--2);
+}
