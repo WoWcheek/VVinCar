@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+    searchOption: "Number",
+    cars: [],
+    fuels: [],
+    regions: []
+};
+
 export const appSlice = createSlice({
     name: "app",
-    initialState: {
-        searchOption: "Number",
-        cars: []
-    },
+    initialState,
     reducers: {
         setSearchOption: (state, action) => ({
             ...state,
@@ -14,10 +18,15 @@ export const appSlice = createSlice({
         setCars: (state, action) => ({
             ...state,
             ...action.payload
+        }),
+        setRegionsAndFuels: (state, action) => ({
+            ...state,
+            ...action.payload
         })
     }
 });
 
-export const { setSearchOption, setCars } = appSlice.actions;
+export const { setCars, setSearchOption, setRegionsAndFuels } =
+    appSlice.actions;
 
 export default appSlice.reducer;
