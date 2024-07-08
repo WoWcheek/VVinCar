@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
 import { setCars } from "../../redux/appSlice";
 import { fetchCarsByNumber, fetchCarsByVin } from "../../helpers/fetchCars";
+import AdvancedForm from "./AdvancedForm";
 
 const SearchForm = () => {
     const dispatch = useDispatch();
@@ -11,6 +12,10 @@ const SearchForm = () => {
 
     const navigate = useNavigate();
     const { searchOption } = useSelector(state => state.app);
+
+    if (searchOption === "Advanced") {
+        return <AdvancedForm />;
+    }
 
     const handleSearch = async e => {
         e.preventDefault();
