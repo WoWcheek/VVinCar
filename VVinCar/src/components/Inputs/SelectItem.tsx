@@ -9,7 +9,7 @@ interface Props extends React.PropsWithChildren {
 
 const StyledSelectItem = styled.div`
     padding: 0.5rem;
-    width: 6rem;
+    width: 6.5rem;
 
     text-align: center;
     font-size: 1.05rem;

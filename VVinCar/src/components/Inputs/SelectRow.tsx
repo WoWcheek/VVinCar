@@ -14,7 +14,7 @@ const StyledSelectRow = styled.div`
     overflow: hidden;
 `;
 
-const SEARCH_OPTIONS = ["Number", "VIN", "Model", "Region"];
+const SEARCH_OPTIONS = ["Number", "VIN", "Model", "Region", "Advanced"];
 
 const SelectRow = () => {
     const dispatch = useDispatch();
