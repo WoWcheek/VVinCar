@@ -120,7 +120,7 @@ const AdvancedForm = () => {
                                     ? reg.name.ua
                                     : capitalize(reg.name.ua)}
                             </option>
-                        ))}{" "}
+                        ))}
                     </Form.Select>
                 </Form.Group>
             </Row>

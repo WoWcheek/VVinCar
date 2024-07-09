@@ -37,11 +37,34 @@ export const fetchCarsByBrandAndModel = async (
     brand: string,
     model: string
 ) => {
-    const resp = await fetch(`${API_URL}/${endpoint}`, requestConfig);
+    const resp = await fetch(
+        `${API_URL}/make/${brand.toLowerCase()}/${model.toLowerCase()}`,
+        requestConfig
+    );
+    const json = await resp.json();
+
+    console.log(json);
+
+    const car = {
+        img: json.catalog_model.photo_url,
+        model: json.full_title,
+        vendor: "",
+        year: json.catalog_model.year_from,
+        price: Number(json.catalog_model.price_avg)
+    };
+
+    return [car];
+};
+
+export const fetchCarsByRegion = async (region: string) => {
+    const resp = await fetch(
+        `${API_URL}/search?region=${region}`,
+        requestConfig
+    );
     const json = await resp.json();
 
     const cars = [];
-    for (const car of json.operations) {
+    for (const car of json.plates) {
         try {
             const resp = await fetch(
                 `${API_URL}/make/${car.vendor.toLowerCase()}/${car.model.toLowerCase()}`,
@@ -55,10 +78,8 @@ export const fetchCarsByBrandAndModel = async (
                 img: json.catalog_model.photo_url,
                 model: car.model,
                 vendor: car.vendor,
-                fuel: car.fuel.slug,
+                digits: car.digits,
                 year: car.model_year,
-                region: car.address,
-                weight: car.total_weight,
                 registered: car.registered_at
             });
         } catch {}
