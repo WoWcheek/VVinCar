@@ -1,5 +1,6 @@
 import { FC } from "react";
 import styled from "styled-components";
+import { formatUah } from "../../helpers/stringFunctions";
 
 const StyledCard = styled.div`
     height: fit-content;
@@ -48,6 +49,7 @@ interface Car {
     kind: string;
     year: string;
     fuel: string;
+    price: number;
     weight: string;
     region: string;
     registered: string;
@@ -63,11 +65,12 @@ const Card: FC<CardProps> = ({ car }) => {
             <h2>{`${car.vendor} ${car.model}`}</h2>
             <img src={car?.img} />
             <StyledInfo>
-                <p>Type: {car.kind}</p>
-                <p>Model year: {car.year}</p>
-                <p>Fuel type: {car.fuel}</p>
-                <p>Car weight: {car.weight} kg</p>
-                <p>Registered at: {car.registered}</p>
+                {car.kind && <p>Type: {car.kind}</p>}
+                {car.year && <p>Model year: {car.year}</p>}
+                {car.fuel && <p>Fuel type: {car.fuel}</p>}
+                {car.weight && <p>Car weight: {car.weight} kg</p>}
+                {car.registered && <p>Registered at: {car.registered}</p>}
+                {car.price && <p>Average price: {formatUah(car.price)}</p>}
             </StyledInfo>
         </StyledCard>
     );

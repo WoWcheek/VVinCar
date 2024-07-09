@@ -10,6 +10,12 @@ const StyledCardsPage = styled.div`
 
     margin-top: 2.5rem;
 
+    .Pagimagic {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .Pagimagic__nav {
         display: flex;
         justify-content: center;
