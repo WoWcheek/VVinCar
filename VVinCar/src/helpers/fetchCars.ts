@@ -2,29 +2,39 @@ import { API_URL, requestConfig } from "../data/constants";
 import { removeLastChar } from "./stringFunctions";
 
 const fetchCarsWithOperations = async (endpoint: string) => {
-    const resp = await fetch(`${API_URL}/${endpoint}`, requestConfig);
-    const json = await resp.json();
-
-    const cars = [];
-    for (const car of json.operations) {
-        const resp = await fetch(
-            `${API_URL}/make/${car.vendor.toLowerCase()}/${car.model.toLowerCase()}`,
-            requestConfig
-        );
+    try {
+        const resp = await fetch(`${API_URL}/${endpoint}`, requestConfig);
         const json = await resp.json();
-        cars.push({
-            img: json.catalog_model.photo_url,
-            model: car.model,
-            vendor: car.vendor,
-            fuel: car.fuel.slug,
-            year: car.model_year,
-            region: car.address,
-            weight: car.total_weight,
-            registered: car.registered_at
-        });
-    }
 
-    return cars;
+        const cars = [];
+
+        for (const car of json.operations) {
+            const resp = await fetch(
+                `${API_URL}/make/${car.vendor
+                    .replace(" ", "-")
+                    .toLowerCase()}/${car.model
+                    .replace(" ", "-")
+                    .toLowerCase()}`,
+                requestConfig
+            );
+            const jsonPhoto = await resp.json();
+
+            cars.push({
+                img: jsonPhoto.catalog_model.photo_url,
+                model: car.model,
+                vendor: car.vendor,
+                fuel: car.fuel.slug,
+                year: car.model_year,
+                region: json.region.slug,
+                weight: car.total_weight,
+                registered: car.registered_at
+            });
+        }
+
+        return cars;
+    } catch {
+        return [];
+    }
 };
 
 export const fetchCarsByNumber = (number: string) =>
@@ -38,7 +48,9 @@ export const fetchCarsByBrandAndModel = async (
     model: string
 ) => {
     const resp = await fetch(
-        `${API_URL}/make/${brand.toLowerCase()}/${model.toLowerCase()}`,
+        `${API_URL}/make/${brand.replace(" ", "-").toLowerCase()}/${model
+            .replace(" ", "-")
+            .toLowerCase()}`,
         requestConfig
     );
     const json = await resp.json();
@@ -67,7 +79,11 @@ export const fetchCarsByRegion = async (region: string) => {
     for (const car of json.plates) {
         try {
             const resp = await fetch(
-                `${API_URL}/make/${car.vendor.toLowerCase()}/${car.model.toLowerCase()}`,
+                `${API_URL}/make/${car.vendor
+                    .replace(" ", "-")
+                    .toLowerCase()}/${car
+                    .replace(" ", "-")
+                    .model.toLowerCase()}`,
                 requestConfig
             );
             const json = await resp.json();
@@ -93,8 +109,12 @@ export const fetchCarsAdvanced = async (params: object) => {
 
     if (params.fuel) query += `fuel=${params.fuel}&`;
     if (params.region) query += `region=${params.region}&`;
-    if (params.brand) query += `vendor=${params.brand.toLowerCase()}&`;
-    if (params.model) query += `catalog_model=${params.model.toLowerCase()}&`;
+    if (params.brand)
+        query += `vendor=${params.brand.replace(" ", "-").toLowerCase()}&`;
+    if (params.model)
+        query += `catalog_model=${params.model
+            .replace(" ", "-")
+            .toLowerCase()}&`;
     if (params.yearTo) query += `year_to=${params.yearTo.toLowerCase()}&`;
     if (params.yearFrom) query += `year_from=${params.yearFrom.toLowerCase()}&`;
 
@@ -107,7 +127,11 @@ export const fetchCarsAdvanced = async (params: object) => {
     for (const car of json.plates) {
         try {
             const resp = await fetch(
-                `${API_URL}/make/${car.vendor.toLowerCase()}/${car.model.toLowerCase()}`,
+                `${API_URL}/make/${car.vendor
+                    .replace(" ", "-")
+                    .toLowerCase()}/${car.model
+                    .replace(" ", "-")
+                    .toLowerCase()}`,
                 requestConfig
             );
             const json = await resp.json();

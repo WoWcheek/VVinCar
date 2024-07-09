@@ -8,6 +8,7 @@ import Header from "./Header";
 import CardsPage from "../../pages/CardsPage";
 import SearchPage from "../../pages/SearchPage";
 import AdvancedCardsPage from "../../pages/AdvancedCardsPage";
+import MapPage from "../../pages/MapPage";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const App = () => {
                         path="advancedCards"
                         element={<AdvancedCardsPage />}
                     />
+                    <Route path="map" element={<MapPage />} />
                     <Route path="*" element={<SearchPage />} />
                 </Routes>
             </Container>

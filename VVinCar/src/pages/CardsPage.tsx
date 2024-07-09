@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import Pagimagic from "react-pagimagic";
 import styled from "styled-components";
 import Card from "../components/Cards/Card";
+import MapButton from "../components/Inputs/MapButton";
 
 const StyledCardsPage = styled.div`
     display: flex;
@@ -9,6 +10,12 @@ const StyledCardsPage = styled.div`
     align-items: center;
 
     margin-top: 2.5rem;
+
+    .Pagimagic {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+    }
 
     .Pagimagic__nav {
         display: flex;
@@ -32,18 +39,25 @@ const StyledCardsPage = styled.div`
 `;
 
 const CardsPage = () => {
-    const { cars } = useSelector(state => state.app);
+    const { cars, searchOption } = useSelector(state => state.app);
 
     return (
         <StyledCardsPage>
-            <Pagimagic
-                list={cars}
-                itemsPerPage={1}
-                currentPageIndex={0}
-                maximumVisiblePaginators={5}
-                renderChildren={car => <Card car={car[0]} />}
-                useDefaultStyles
-            />
+            {cars.length > 0 ? (
+                <Pagimagic
+                    list={cars}
+                    itemsPerPage={1}
+                    currentPageIndex={0}
+                    maximumVisiblePaginators={5}
+                    renderChildren={car => <Card car={car[0]} />}
+                    useDefaultStyles
+                />
+            ) : (
+                <h2>No cars to show...</h2>
+            )}
+            {cars.length > 0 && ["Number", "VIN"].includes(searchOption) && (
+                <MapButton />
+            )}
         </StyledCardsPage>
     );
 };
