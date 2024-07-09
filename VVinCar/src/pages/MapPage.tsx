@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { regionIdFromSlug } from "../helpers/stringFunctions";
+import BackButton from "../components/Inputs/BackButton";
 
 const MapContainer = styled.div`
     padding-top: 10rem;
@@ -42,6 +43,7 @@ const MapPage = () => {
 
     return (
         <MapContainer>
+            <BackButton />
             <Ukraine type="select-multiple" hints={true} size={600} />
         </MapContainer>
     );
