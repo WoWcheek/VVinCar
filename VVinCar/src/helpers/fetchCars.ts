@@ -55,8 +55,6 @@ export const fetchCarsByBrandAndModel = async (
     );
     const json = await resp.json();
 
-    console.log(json);
-
     const car = {
         img: json.catalog_model.photo_url,
         model: json.full_title,
@@ -66,6 +64,33 @@ export const fetchCarsByBrandAndModel = async (
     };
 
     return [car];
+};
+
+export const fetchCarsByBrandAndModelAdvanced = async (
+    brand: string,
+    model: string
+) => {
+    const resp = await fetch(
+        `${API_URL}/make/${brand.replace(" ", "-").toLowerCase()}/${model
+            .replace(" ", "-")
+            .toLowerCase()}`,
+        requestConfig
+    );
+    const json = await resp.json();
+
+    const car = {
+        img: json.catalog_model.photo_url,
+        fullTitle: json.full_title,
+        description: json.catalog_model.description,
+        plateCount: json.catalog_model.plate_count,
+        yearFrom: json.catalog_model.year_from,
+        yearTo: json.catalog_model.year_to,
+        averagePrice: Number(json.catalog_model.price_avg),
+        minPrice: Number(json.catalog_model.price_min),
+        maxPrice: Number(json.catalog_model.price_max)
+    };
+
+    return car;
 };
 
 export const fetchCarsByRegion = async (region: string) => {
@@ -81,17 +106,15 @@ export const fetchCarsByRegion = async (region: string) => {
             const resp = await fetch(
                 `${API_URL}/make/${car.vendor
                     .replace(" ", "-")
-                    .toLowerCase()}/${car
+                    .toLowerCase()}/${car.model
                     .replace(" ", "-")
-                    .model.toLowerCase()}`,
+                    .toLowerCase()}`,
                 requestConfig
             );
-            const json = await resp.json();
-
-            if (!json.catalog_model.photo_url) continue;
+            const jsonPhoto = await resp.json();
 
             cars.push({
-                img: json.catalog_model.photo_url,
+                img: jsonPhoto.catalog_model.photo_url,
                 model: car.model,
                 vendor: car.vendor,
                 digits: car.digits,

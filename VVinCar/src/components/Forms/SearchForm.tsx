@@ -34,6 +34,7 @@ const SearchForm = () => {
 
         if (searchOption === "Region") {
             cars = await fetchCarsByRegion(refs[0].current.value);
+
             dispatch(setCars({ cars }));
             navigate("/advancedCards");
             return;

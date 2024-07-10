@@ -40,8 +40,6 @@ const AdvancedForm = () => {
             yearFrom: yearFromRef.current.value
         });
 
-        console.log(cars);
-
         dispatch(setCars({ cars }));
 
         navigate("/advancedCards");
