@@ -5,7 +5,9 @@ const initialState = {
     cars: [],
     fuels: [],
     regions: [],
-    compare: []
+    compare: [],
+    searchCount: 0,
+    searchCountDate: new Date()
 };
 
 export const appSlice = createSlice({
@@ -38,6 +40,18 @@ export const appSlice = createSlice({
         clearCompare: state => ({
             ...state,
             compare: []
+        }),
+        increaseSearchCount: state => ({
+            ...state,
+            searchCount: state.searchCount + 1
+        }),
+        resetSearchCount: state => ({
+            ...state,
+            searchCount: 0
+        }),
+        updateSearchCountDate: state => ({
+            ...state,
+            searchCountDate: new Date()
         })
     }
 });
@@ -47,8 +61,11 @@ export const {
     addToCompare,
     clearCompare,
     setSearchOption,
+    resetSearchCount,
     removeFromCompare,
-    setRegionsAndFuels
+    setRegionsAndFuels,
+    increaseSearchCount,
+    updateSearchCountDate
 } = appSlice.actions;
 
 export default appSlice.reducer;

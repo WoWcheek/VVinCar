@@ -10,6 +10,7 @@ import CardsPage from "../../pages/CardsPage";
 import SearchPage from "../../pages/SearchPage";
 import ComparePage from "../../pages/ComparePage";
 import AdvancedCardsPage from "../../pages/AdvancedCardsPage";
+import DonationPage from "../../pages/DonationPage";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const App = () => {
                     />
                     <Route path="map" element={<MapPage />} />
                     <Route path="compare" element={<ComparePage />} />
+                    <Route path="donation" element={<DonationPage />} />
                     <Route path="*" element={<SearchPage />} />
                 </Routes>
             </Container>
