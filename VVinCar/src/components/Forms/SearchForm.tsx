@@ -2,7 +2,12 @@ import { useRef } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { setCars } from "../../redux/appSlice";
+import {
+    increaseSearchCount,
+    resetSearchCount,
+    setCars,
+    updateSearchCountDate
+} from "../../redux/appSlice";
 import {
     fetchCarsByBrandAndModel,
     fetchCarsByNumber,
@@ -11,6 +16,8 @@ import {
 } from "../../helpers/fetchCars";
 import { capitalize } from "../../helpers/stringFunctions";
 import AdvancedForm from "./AdvancedForm";
+import { MAX_SEARCH_COUNT } from "../../data/constants";
+import { findDifferenceInDays } from "../../helpers/dateTimeFunctions";
 
 const optionStyle = {
     color: "var(--color-dark--2)"
@@ -21,7 +28,9 @@ const SearchForm = () => {
     const refs = [useRef(null), useRef(null)];
 
     const navigate = useNavigate();
-    const { searchOption, regions } = useSelector(state => state.app);
+    const { searchOption, searchCount, searchCountDate, regions } = useSelector(
+        state => state.app
+    );
 
     if (searchOption === "Advanced") {
         return <AdvancedForm />;
@@ -30,10 +39,23 @@ const SearchForm = () => {
     const handleSearch = async e => {
         e.preventDefault();
 
+        if (findDifferenceInDays(searchCountDate, new Date()) >= 1) {
+            dispatch(updateSearchCountDate());
+            dispatch(resetSearchCount());
+        }
+
+        if (searchCount >= MAX_SEARCH_COUNT) {
+            navigate("/donation");
+            return;
+        }
+
+        dispatch(increaseSearchCount());
+
         let cars = [{}];
 
         if (searchOption === "Region") {
             cars = await fetchCarsByRegion(refs[0].current.value);
+
             dispatch(setCars({ cars }));
             navigate("/advancedCards");
             return;

@@ -1,3 +1,5 @@
+import { useDispatch } from "react-redux";
+import { clearCompare } from "../redux/appSlice";
 import styled from "styled-components";
 import SelectRow from "../components/Inputs/SelectRow";
 import SearchForm from "../components/Forms/SearchForm";
@@ -14,6 +16,10 @@ const StyledSearchPage = styled.div`
 `;
 
 const SearchPage = () => {
+    const dispatch = useDispatch();
+
+    dispatch(clearCompare());
+
     return (
         <StyledSearchPage>
             <SelectRow />

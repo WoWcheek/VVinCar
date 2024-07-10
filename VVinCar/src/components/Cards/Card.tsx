@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styled from "styled-components";
 import { formatUah } from "../../helpers/stringFunctions";
+import CardCheckBox from "./CardCheckBox";
 
 const StyledCard = styled.div`
     height: fit-content;
@@ -8,6 +9,8 @@ const StyledCard = styled.div`
 
     padding: 10px 20px;
     margin-bottom: 30px;
+
+    position: relative;
 
     display: flex;
     flex-direction: column;
@@ -62,6 +65,7 @@ interface CardProps {
 const Card: FC<CardProps> = ({ car }) => {
     return (
         <StyledCard>
+            <CardCheckBox value={`${car.vendor} ${car.model}`} />
             <h2>{`${car.vendor} ${car.model}`}</h2>
             <img src={car?.img} />
             <StyledInfo>

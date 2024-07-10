@@ -53,14 +53,18 @@ const AdvancedCardsPage = () => {
 
     return (
         <StyledCardsPage>
-            <Pagimagic
-                list={cars}
-                itemsPerPage={1}
-                currentPageIndex={0}
-                maximumVisiblePaginators={5}
-                renderChildren={car => <AdvancedCard car={car[0]} />}
-                useDefaultStyles
-            />
+            {cars.length > 0 ? (
+                <Pagimagic
+                    list={cars}
+                    itemsPerPage={1}
+                    currentPageIndex={0}
+                    maximumVisiblePaginators={5}
+                    renderChildren={car => <AdvancedCard car={car[0]} />}
+                    useDefaultStyles
+                />
+            ) : (
+                <h2>No cars to show...</h2>
+            )}
         </StyledCardsPage>
     );
 };

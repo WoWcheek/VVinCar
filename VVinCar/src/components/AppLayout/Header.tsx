@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
 import { MdCompare } from "react-icons/md";
@@ -27,16 +28,34 @@ const StyledHeader = styled.header`
     }
 `;
 
+const CompareCount = styled.div`
+    height: 1.85rem;
+    width: 1.85rem;
+
+    margin-left: 0.8rem;
+
+    text-align: center;
+
+    border-radius: 50%;
+    background-color: var(--color-light--2);
+    color: darkblue;
+    opacity: 0.5;
+`;
+
 const Header = () => {
+    const { compare } = useSelector(state => state.app);
+    const { pathname } = useLocation();
+
     return (
         <StyledHeader>
             <NavLink to="search">
                 <FaSearch />
                 Search
             </NavLink>
-            <NavLink to="compare">
+            <NavLink to={compare.length === 2 ? "compare" : pathname}>
                 <MdCompare />
                 Compare
+                <CompareCount>{compare.length}</CompareCount>
             </NavLink>
         </StyledHeader>
     );

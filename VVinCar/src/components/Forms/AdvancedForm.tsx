@@ -1,10 +1,17 @@
 import { useRef } from "react";
 import { Button, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { setCars } from "../../redux/appSlice";
+import {
+    increaseSearchCount,
+    resetSearchCount,
+    setCars,
+    updateSearchCountDate
+} from "../../redux/appSlice";
 import { capitalize } from "../../helpers/stringFunctions";
 import { fetchCarsAdvanced } from "../../helpers/fetchCars";
 import { useNavigate } from "react-router";
+import { MAX_SEARCH_COUNT } from "../../data/constants";
+import { findDifferenceInDays } from "../../helpers/dateTimeFunctions";
 
 const optionStyle = {
     color: "var(--color-dark--2)"
@@ -21,10 +28,24 @@ const AdvancedForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { regions, fuels } = useSelector(state => state.app);
+    const { searchCount, searchCountDate, regions, fuels } = useSelector(
+        state => state.app
+    );
 
     const handleSearch = async e => {
         e.preventDefault();
+
+        if (findDifferenceInDays(searchCountDate, new Date()) >= 1) {
+            dispatch(updateSearchCountDate());
+            dispatch(resetSearchCount());
+        }
+
+        if (searchCount >= MAX_SEARCH_COUNT) {
+            navigate("/donation");
+            return;
+        }
+
+        dispatch(increaseSearchCount());
 
         const yearToNum = Number(yearToRef.current.value);
         const yearFromNum = Number(yearFromRef.current.value);
@@ -39,8 +60,6 @@ const AdvancedForm = () => {
             yearTo: yearToRef.current.value,
             yearFrom: yearFromRef.current.value
         });
-
-        console.log(cars);
 
         dispatch(setCars({ cars }));
 

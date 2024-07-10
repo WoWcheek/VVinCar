@@ -5,10 +5,12 @@ import { Container } from "react-bootstrap";
 import { setRegionsAndFuels } from "../../redux/appSlice";
 import { fetchRegionsAndFuels } from "../../helpers/fetchInfo";
 import Header from "./Header";
+import MapPage from "../../pages/MapPage";
 import CardsPage from "../../pages/CardsPage";
 import SearchPage from "../../pages/SearchPage";
+import ComparePage from "../../pages/ComparePage";
 import AdvancedCardsPage from "../../pages/AdvancedCardsPage";
-import MapPage from "../../pages/MapPage";
+import DonationPage from "../../pages/DonationPage";
 
 const App = () => {
     const dispatch = useDispatch();
@@ -30,6 +32,8 @@ const App = () => {
                         element={<AdvancedCardsPage />}
                     />
                     <Route path="map" element={<MapPage />} />
+                    <Route path="compare" element={<ComparePage />} />
+                    <Route path="donation" element={<DonationPage />} />
                     <Route path="*" element={<SearchPage />} />
                 </Routes>
             </Container>
